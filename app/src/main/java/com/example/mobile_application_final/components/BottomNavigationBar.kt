@@ -1,4 +1,4 @@
-package com.example.mobile_application_final.screens.components
+package com.example.mobile_application_final.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
