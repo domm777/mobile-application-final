@@ -1,6 +1,8 @@
 package com.example.mobile_application_final.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -10,13 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 
 @Composable
-fun ShopScreen(modifier: Modifier) {
+fun AccountScreen(modifier: Modifier) {
     Box(
-        modifier = modifier.fillMaxSize().testTag("shop_screen"),
+        modifier = modifier.fillMaxSize().testTag("account_screen"),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "This is Shop Screen",
+            text = "This is Account Screen",
             style = MaterialTheme.typography.headlineMedium
         )
     }

@@ -10,13 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 
 @Composable
-fun ShopScreen(modifier: Modifier) {
+fun OrderScreen(modifier: Modifier) {
     Box(
-        modifier = modifier.fillMaxSize().testTag("shop_screen"),
+        modifier = modifier.fillMaxSize().testTag("order_screen"),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "This is Shop Screen",
+            text = "This is Order Screen",
             style = MaterialTheme.typography.headlineMedium
         )
     }

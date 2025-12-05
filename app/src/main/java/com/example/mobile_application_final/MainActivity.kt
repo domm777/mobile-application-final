@@ -7,9 +7,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.example.mobile_application_final.screens.navigation.AppNavigation
+import com.example.mobile_application_final.screens.components.BottomNavigationBar
+import com.example.mobile_application_final.screens.navigation.NavGraph
 import com.example.mobile_application_final.ui.theme.MobileapplicationfinalTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,11 +23,12 @@ class MainActivity : ComponentActivity() {
             MobileapplicationfinalTheme {
                 val navController = rememberNavController()
                 Scaffold(
+                    bottomBar = { BottomNavigationBar(navController) },
                     modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->
-                    AppNavigation(
+                    NavGraph(
                         navController = navController,
-                        modifier = Modifier.padding(innerPadding)
+                        innerPadding = innerPadding
                     )
                 }
             }
@@ -32,15 +36,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-//
-//@Composable
-//fun Greeting(name: String, modifier: Modifier = Modifier) {
-//    Text(
-//        text = "Hello $name!",
-//        modifier = modifier
-//    )
-//}
-//
 //@Preview(showBackground = true)
 //@Composable
 //fun GreetingPreview() {
