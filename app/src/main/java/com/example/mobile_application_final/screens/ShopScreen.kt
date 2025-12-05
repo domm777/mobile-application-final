@@ -2,22 +2,34 @@ package com.example.mobile_application_final.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mobile_application_final.viewModels.ShopScreenViewModel
 
 @Composable
 fun ShopScreen(modifier: Modifier) {
-    Box(
-        modifier = modifier.fillMaxSize().testTag("shop_screen"),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "This is Shop Screen",
-            style = MaterialTheme.typography.headlineMedium
-        )
+    val viewModel: ShopScreenViewModel = viewModel()
+    val products by viewModel.products.collectAsState()
+    val context = LocalContext.current
+
+    LazyColumn() {
+        items(products.size, key = { products[it].id }, itemContent = {
+            val product = products[it]
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text("${product.name}")
+            }
+        });
     }
 }
