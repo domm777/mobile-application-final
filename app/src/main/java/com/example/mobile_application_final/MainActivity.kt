@@ -7,10 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.example.mobile_application_final.screens.navigation.AppNavigation
 import com.example.mobile_application_final.ui.theme.MobileapplicationfinalTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,7 +18,15 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MobileapplicationfinalTheme {
-
+                val navController = rememberNavController()
+                Scaffold(
+                    modifier = Modifier.fillMaxSize()
+                ) { innerPadding ->
+                    AppNavigation(
+                        navController = navController,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
             }
         }
     }
