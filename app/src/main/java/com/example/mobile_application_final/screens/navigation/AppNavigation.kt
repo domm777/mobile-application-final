@@ -1,4 +1,4 @@
-package com.example.mobile_application_final.navigation
+package com.example.mobile_application_final.screens.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -22,6 +22,7 @@ sealed class Screen(val route: String, val title: String = "", val icon: ImageVe
     // Auth / System Screens (No Bottom Bar)
     object Splash : Screen("splash")
     object Login : Screen("login")
+    //object Register : Screen("register")
 
     // Main Tabs (Have Bottom Bar)
     object Shop : Screen("shop", "Shop", Icons.Default.ShoppingCart)
