@@ -54,7 +54,8 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onCreateAccountClicked: () -> Unit) 
         )
         Button(
             onClick = {
-                if (email == "user@gmail.com" && password == "pass123") onLoginSuccess()
+                // if (email == "user@gmail.com" && password == "pass123")
+                    onLoginSuccess()
                 // Do nothing on failure, the user can try again.
                 // Calling LoginScreen() here is a bug.
             },
@@ -63,7 +64,10 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onCreateAccountClicked: () -> Unit) 
             Text(text = stringResource(R.string.login))
         }
         Spacer(modifier = Modifier.height(8.dp))
-        TextButton(onClick = onCreateAccountClicked) {
+        Button(
+            modifier = Modifier.padding(bottom = 16.dp),
+            onClick = onCreateAccountClicked
+        ) {
             Text(
                 text = stringResource(R.string.create_account_prompt),
                 fontSize = 12.sp

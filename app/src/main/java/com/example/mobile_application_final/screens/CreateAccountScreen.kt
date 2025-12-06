@@ -8,6 +8,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,13 +18,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mobile_application_final.R
+import com.example.mobile_application_final.data.viewModels.CreateAccountViewModel
+import com.example.mobile_application_final.data.viewModels.ShopScreenViewModel
 
 @Composable
-fun CreateAccountScreen(onLoginSuccess: () -> Unit, onAccountCreated: () -> Boolean) {
+fun CreateAccountScreen(onLoginSuccess: () -> Unit) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+
+    val viewModel: CreateAccountViewModel = viewModel()
+    val userName by viewModel.users.collectAsState()
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -38,9 +45,8 @@ fun CreateAccountScreen(onLoginSuccess: () -> Unit, onAccountCreated: () -> Bool
         )
         OutlinedTextField(
             value = email,
-            onValueChange = { password = it },
+            onValueChange = { email = it },
             label = { Text(stringResource(R.string.userEmail)) },
-            visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.padding(8.dp)
         )
         OutlinedTextField(
@@ -52,15 +58,21 @@ fun CreateAccountScreen(onLoginSuccess: () -> Unit, onAccountCreated: () -> Bool
         )
         Button(
             onClick = {
-                if (username == "user" && password == "password123!") {
-                    onLoginSuccess()
-                }
-                // Do nothing on failure, the user can try again.
-                // Calling LoginScreen() here is a bug.
+                onLoginSuccess()
             },
             modifier = Modifier.padding(8.dp)
         ) {
             Text(text = (stringResource(R.string.login)))
         }
+        Button(
+            onClick = {
+                viewModel.seedDbBtn()
+                onLoginSuccess()
+            },
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Text(text = (stringResource(R.string.seed_data)))
+        }
+        Text("Seed data just for actually seeding data into the database")
     }
 }

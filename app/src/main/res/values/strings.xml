@@ -3,6 +3,7 @@
     <string name="userName">Username</string>
     <string name="userPassword">Password</string>
     <string name="userEmail">Email</string>
+    <string name="seed_data">Seed Data</string>
     <string name="login">Login</string>
     <string name="bottom_nav_shop">Shop\n</string>
     <string name="bottom_nav_cart">Cart</string>

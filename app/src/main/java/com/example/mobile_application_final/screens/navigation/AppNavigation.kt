@@ -22,7 +22,7 @@ sealed class Screen(val route: String, val title: String = "", val icon: ImageVe
     // Auth / System Screens (No Bottom Bar)
     object Splash : Screen("splash")
     object Login : Screen("login")
-    //object Register : Screen("register")
+    object Register : Screen("register")
 
     // Main Tabs (Have Bottom Bar)
     object Shop : Screen("shop", "Shop", Icons.Default.ShoppingCart)
@@ -96,7 +96,19 @@ fun AppNavigation() {
                             popUpTo(Screen.Login.route) { inclusive = true }
                         }
                     },
-                    onCreateAccountClicked = { /* Handle Create Account */ }
+                    onCreateAccountClicked = {
+                        navController.navigate(Screen.Register.route)
+                    }
+                )
+            }
+            composable(Screen.Register.route) {
+                CreateAccountScreen(
+                     onLoginSuccess = {
+                         // After creating an account, log the user in and go to the main app screen.
+                         navController.navigate(Screen.Shop.route) {
+                             popUpTo(Screen.Login.route) { inclusive = true } // Clear Login & Register from stack
+                         }
+                     }
                 )
             }
 
