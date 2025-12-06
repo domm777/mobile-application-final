@@ -5,13 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.example.mobile_application_final.screens.components.BottomNavigationBar
+import com.example.mobile_application_final.components.BottomNavigationBar
+import com.example.mobile_application_final.screens.ShopScreen
 import com.example.mobile_application_final.screens.navigation.NavGraph
 import com.example.mobile_application_final.ui.theme.MobileapplicationfinalTheme
 
@@ -40,6 +40,6 @@ class MainActivity : ComponentActivity() {
 //@Composable
 //fun GreetingPreview() {
 //    MobileapplicationfinalTheme {
-//        Greeting("Android")
+//        ShopScreen(Modifier)
 //    }
 //}
