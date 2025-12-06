@@ -10,6 +10,6 @@ data class Product (
     val price: Double = 0.0,
     val rating: Double = 0.0,
     val category: String = "",
-    val image: String = "",
+    val image: Int = 0,
     val stock: Int = 0
 )
