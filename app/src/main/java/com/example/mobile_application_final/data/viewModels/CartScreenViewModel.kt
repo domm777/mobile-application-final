@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import kotlin.collections.firstOrNull
 import kotlin.math.min
 
-class CartScreenViewModel (application: Application) : AndroidViewModel(application) {
+class CartScreenViewModel(application: Application) : AndroidViewModel(application) {
     private val dbHelper = CartDb(application)
     private val prodRepository = ProductRepository()
     private val _products = MutableStateFlow<List<Product>>(emptyList())
@@ -35,27 +35,28 @@ class CartScreenViewModel (application: Application) : AndroidViewModel(applicat
     var cartItems = mutableStateListOf<CartItem>()
         private set
 
-    init{
+    init {
         loadProducts()
         updateList()
     }
 
-    fun updateList (){
+    fun updateList() {
         cartItems.clear()
         cartItems.addAll(dbHelper.getCartItems())
         updateValues()
     }
 
-    fun updateValues(){
+    fun updateValues() {
         print("Updating values")
         subtotal = cartItems.sumOf {
-            (productList.firstOrNull { product -> product.id == it.itemId }?.price ?: 0.0) * it.quantity
+            (productList.firstOrNull { product -> product.id == it.itemId }?.price
+                ?: 0.0) * it.quantity
         }
         tax = 0.13 * subtotal
         total = subtotal + tax
     }
 
-    fun loadProducts(){
+    fun loadProducts() {
         viewModelScope.launch {
             _products.value = prodRepository.getProducts()
             productList = _products.value
@@ -63,18 +64,18 @@ class CartScreenViewModel (application: Application) : AndroidViewModel(applicat
         }
     }
 
-    fun removeItem(cartItem: CartItem){
+    fun removeItem(cartItem: CartItem) {
         dbHelper.deleteCartItem(cartItem.id)
         updateList()
     }
 
-    fun updateItem(cartItem: CartItem, product: Product, value: Long){
-        if(value < 0){
-            if(cartItem.quantity + value <= 0)
+    fun updateItem(cartItem: CartItem, product: Product, value: Long) {
+        if (value < 0) {
+            if (cartItem.quantity + value <= 0)
                 removeItem(cartItem)
             else
                 dbHelper.updateCartItem(cartItem.id, cartItem.quantity + value)
-        }else{
+        } else {
             dbHelper.updateCartItem(cartItem.id, min(cartItem.quantity + value, product.stock))
         }
         updateList()
