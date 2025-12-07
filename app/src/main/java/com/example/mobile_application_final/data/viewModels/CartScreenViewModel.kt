@@ -14,6 +14,7 @@ import com.example.mobile_application_final.data.models.Product
 import com.example.mobile_application_final.data.repositories.CartDb
 import com.example.mobile_application_final.data.repositories.OrdersRepository
 import com.example.mobile_application_final.data.repositories.ProductRepository
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -122,6 +123,10 @@ class CartScreenViewModel (application: Application) : AndroidViewModel(applicat
             //dateing format
             val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
 
+            //get user Id
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            val userId = currentUser?.uid ?: ""
+
         //create new order
         val newOrder = OrderItem(
             address = "Random Address",
@@ -133,7 +138,7 @@ class CartScreenViewModel (application: Application) : AndroidViewModel(applicat
             total = total,
             tracking_number = Random.nextLong(100000000000L, 999999999999L),
             //put firebase ID of user here
-            user_id = "fD9PEqapTxpa7aMtbQY6",
+            user_id = userId,
             items = cartItems.map { cartItem ->
                 val prod = productList.firstOrNull { prod -> prod.id == cartItem.itemId }
                 Item(
