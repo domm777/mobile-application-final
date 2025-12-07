@@ -1,5 +1,6 @@
 package com.example.mobile_application_final.screens
 
+import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
@@ -26,6 +28,11 @@ import com.example.mobile_application_final.R
 
 @Composable
 fun LoginScreen(onLoginSuccess: () -> Unit, onCreateAccountClicked: () -> Unit) {
+    // Get the current context, which is needed for showing Toasts
+    val context = LocalContext.current
+    // Get a Firebase Auth instance
+
+    var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
 
@@ -40,9 +47,9 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onCreateAccountClicked: () -> Unit) 
             modifier = Modifier.padding(bottom = 24.dp)
         )
         OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text(stringResource(R.string.userEmail)) },
+            value = username,
+            onValueChange = { username = it },
+            label = { Text(stringResource(R.string.userName)) },
             modifier = Modifier.padding(8.dp)
         )
         OutlinedTextField(
@@ -54,10 +61,17 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onCreateAccountClicked: () -> Unit) 
         )
         Button(
             onClick = {
-                //if (email == "user" && password == "pass")
-                    onLoginSuccess()
-                // Do nothing on failure, the user can try again.
-                // Calling LoginScreen() here is a bug.
+                if (email.isNotBlank() && password.isNotBlank()) {
+                    auth.signInWithEmailAndPassword(email, password)
+                        .addOnSuccessListener {
+                            // Firebase login successful, now navigate
+                            onLoginSuccess()
+                        }
+                        .addOnFailureListener { e ->
+                            // Show a toast message on failure
+                            Toast.makeText(context, "Login failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }
             },
             modifier = Modifier.padding(top = 16.dp)
         ) {
