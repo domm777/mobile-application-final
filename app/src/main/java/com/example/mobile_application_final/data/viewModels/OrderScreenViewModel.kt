@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mobile_application_final.data.models.OrderItem
+import com.example.mobile_application_final.data.models.Product
 import com.example.mobile_application_final.data.repositories.OrdersRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

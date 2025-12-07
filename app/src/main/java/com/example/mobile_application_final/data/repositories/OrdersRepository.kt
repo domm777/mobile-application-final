@@ -1,6 +1,7 @@
 package com.example.mobile_application_final.data.repositories
 
 import com.example.mobile_application_final.data.models.OrderItem
+import com.example.mobile_application_final.data.models.Product
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
@@ -17,7 +18,7 @@ class OrdersRepository {
             .mapNotNull { it.toObject(OrderItem::class.java) }
     }
 
-    fun addOrder(order: OrderItem){
+    suspend fun addOrder(order: OrderItem){
         db.collection("orders").add(order)
     }
 }
