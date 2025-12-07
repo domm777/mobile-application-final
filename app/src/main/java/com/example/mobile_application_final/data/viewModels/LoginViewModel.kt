@@ -1,11 +1,13 @@
 package com.example.mobile_application_final.data.viewModels
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import com.example.mobile_application_final.data.repositories.UserRepository
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseUser
 
 data class LoginValidationException(val msg: String) : IllegalStateException(msg)
@@ -21,18 +23,25 @@ class LoginViewModel(app: Application) : AndroidViewModel(app) {
     var password by mutableStateOf("")
         private set
 
-    suspend fun onAttemptLogin(): FirebaseUser? {
-        // disallow repeat attempts
-        if (isLoading) return null
-        isLoading = true
+    suspend fun onAttemptLogin(): FirebaseUser {
+        try {
+            isLoading = true
 
-        validateEmail(email)
-        validatePassword(password)
+            validateEmail(email)
+            validatePassword(password)
 
-        return try {
-            userRepository.login(email, password)
-        } catch (_: Exception) {
-            null
+            val user = userRepository.login(email, password)
+            user?.let {
+                return it
+            }
+
+            throw LoginValidationException("Fome")
+        } catch (e: FirebaseAuthInvalidCredentialsException) {
+            val message = e.message
+            throw LoginValidationException(message ?: "Invalid login credentials")
+        } catch (e: Exception) {
+            // re-throw so it can still be caught, but our finally still runs
+            throw e
         } finally {
             // always return loading back to false so this can be tried again
             isLoading = false
