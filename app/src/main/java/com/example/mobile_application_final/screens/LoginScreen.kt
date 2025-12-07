@@ -14,7 +14,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,12 +21,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mobile_application_final.R
+import com.example.mobile_application_final.data.viewModels.LoginValidationException
+import com.example.mobile_application_final.data.viewModels.LoginViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(onLoginSuccess: () -> Unit, onCreateAccountClicked: () -> Unit) {
-    var password by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
+    val loginModel: LoginViewModel = viewModel()
+    var errorMessage by mutableStateOf(null as String?)
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -39,25 +44,37 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onCreateAccountClicked: () -> Unit) 
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 24.dp)
         )
+        errorMessage?.let {
+            Text(it)
+        }
         OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
+            value = loginModel.email,
+            onValueChange = loginModel::onEmailChanged,
             label = { Text(stringResource(R.string.userEmail)) },
             modifier = Modifier.padding(8.dp)
         )
         OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
+            value = loginModel.password,
+            onValueChange = loginModel::onPasswordChanged,
             label = { Text(stringResource(R.string.userPassword)) },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.padding(8.dp)
         )
         Button(
+            // disable the button when logging in is loading
+            enabled = !loginModel.isLoading,
             onClick = {
-                //if (email == "user" && password == "pass")
-                    onLoginSuccess()
-                // Do nothing on failure, the user can try again.
-                // Calling LoginScreen() here is a bug.
+                errorMessage = null
+
+                // using coroutines so this doesn't block the rendering thread
+                CoroutineScope(Dispatchers.Main).launch {
+                    try {
+                        loginModel.onAttemptLogin()
+                        onLoginSuccess()
+                    } catch (e: LoginValidationException) {
+                        errorMessage = e.message
+                    }
+                }
             },
             modifier = Modifier.padding(top = 16.dp)
         ) {
