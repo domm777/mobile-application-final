@@ -101,8 +101,8 @@ fun AppNavigation() {
             }
 
             // --- MAIN TABS ---
-            composable(Screen.Shop.route) { ShopScreen(modifier = Modifier, onLogOut = {})}
-            composable(Screen.Cart.route) { CartScreen(modifier = Modifier) }
+            composable(Screen.Shop.route) { ShopScreen()}
+            composable(Screen.Cart.route) { CartScreen() }
             composable(Screen.Orders.route) { OrderScreen(modifier = Modifier) }
             composable(Screen.Account.route) {
                 AccountScreen(modifier = Modifier, onLogOut = {
