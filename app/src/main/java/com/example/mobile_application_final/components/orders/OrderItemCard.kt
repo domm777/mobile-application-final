@@ -68,7 +68,7 @@ fun OrderItemCard(item: Item) {
                     overflow = TextOverflow.Ellipsis)
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start) {
-                    Text("X${item.quantity}", style = MaterialTheme.typography.titleSmall)
+                    Text("x${item.quantity}", style = MaterialTheme.typography.titleSmall)
                     Spacer(Modifier.width(4.dp))
                     ProductPrice(item.price)
                 }

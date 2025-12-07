@@ -18,8 +18,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mobile_application_final.R
 import com.example.mobile_application_final.components.CartCard
 import com.example.mobile_application_final.data.viewModels.CartScreenViewModel
 import java.text.NumberFormat
@@ -30,31 +32,58 @@ fun CartScreen() {
     val products by viewModel.products.collectAsState()
     val currencyFormat = NumberFormat.getCurrencyInstance()
 
-    Column(Modifier.fillMaxSize().padding(5.dp), verticalArrangement = Arrangement.SpaceBetween) {
-        Text(text = "Shopping Cart", style = MaterialTheme.typography.headlineMedium)
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(5.dp), verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = stringResource(R.string.cart_screen_title),
+            style = MaterialTheme.typography.headlineMedium
+        )
         Spacer(Modifier.height(5.dp))
         Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
-            if(viewModel.cartItems.isEmpty()){
-                Text(text = "Your cart is empty", style = MaterialTheme.typography.titleMedium)
-            }else{
-                LazyColumn( modifier = Modifier.fillMaxWidth().weight(1f)
-                    .padding(vertical = 5.dp),
-                    contentPadding = PaddingValues(horizontal = 5.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                    items(viewModel.cartItems.size, key = { viewModel.cartItems[it].id }){index ->
+            if (viewModel.cartItems.isEmpty()) {
+                Text(text = stringResource(R.string.empty_cart), style = MaterialTheme.typography.titleMedium)
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .padding(vertical = 5.dp),
+                    contentPadding = PaddingValues(horizontal = 5.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    items(viewModel.cartItems.size, key = { viewModel.cartItems[it].id }) { index ->
                         val cartItem = viewModel.cartItems[index]
-                        val product = products.firstOrNull{it.id == cartItem.itemId}
-                        if(product != null){
-                            CartCard(cartItem, product, {viewModel.removeItem(cartItem)}, {viewModel.updateItem(cartItem, product, 1)}, {viewModel.updateItem(cartItem, product, -1)})
+                        val product = products.firstOrNull { it.id == cartItem.itemId }
+                        if (product != null) {
+                            CartCard(
+                                cartItem,
+                                product,
+                                { viewModel.removeItem(cartItem) },
+                                { viewModel.updateItem(cartItem, product, 1) },
+                                { viewModel.updateItem(cartItem, product, -1) })
                         }
                     }
                 }
                 Spacer(modifier = Modifier.height(5.dp))
-                Row(Modifier.fillMaxWidth().padding(4.dp), Arrangement.SpaceBetween, Alignment.CenterVertically) {
-                    Text(modifier = Modifier.padding(4.dp), text = "Subtotal: ${currencyFormat.format(viewModel.subtotal)}\n" +
-                            "Tax: ${currencyFormat.format(viewModel.tax)}\n" +
-                            "Total: ${currencyFormat.format(viewModel.total)}")
-                    Button(onClick = {viewModel.checkOut()}) {
-                        Text("Proceed to Checkout")
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(4.dp), Arrangement.SpaceBetween, Alignment.CenterVertically
+                ) {
+                    Text(
+                        modifier = Modifier.padding(4.dp), text = stringResource(
+                            R.string.cart_summary, currencyFormat.format(
+                                viewModel.subtotal
+                            ), currencyFormat.format(viewModel.tax), currencyFormat.format(
+                                viewModel.total
+                            )
+                        )
+                    )
+                    Button(onClick = { viewModel.checkOut() }) {
+                        Text(stringResource(R.string.checkout_screen_btn))
                     }
                 }
             }

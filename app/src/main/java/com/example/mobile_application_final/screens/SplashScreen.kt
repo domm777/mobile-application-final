@@ -12,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.example.mobile_application_final.R
 import kotlinx.coroutines.delay
 
@@ -30,7 +31,7 @@ fun SplashScreen(onTimeout: () -> Unit) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(painterResource(R.drawable.stickora_icon_with_text), "Logo")
             Text(
-                "Stickora",
+                stringResource(R.string.app_name),
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.headlineLarge
             )

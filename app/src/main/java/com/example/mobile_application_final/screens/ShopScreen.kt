@@ -25,8 +25,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mobile_application_final.R
 import com.example.mobile_application_final.components.products.HProductCard
 import com.example.mobile_application_final.components.products.VProductCard
 import com.example.mobile_application_final.data.viewModels.ShopScreenViewModel
@@ -37,11 +39,16 @@ fun ShopScreen() {
     val products by viewModel.products.collectAsState()
     val categories by viewModel.categories.collectAsState()
 
-    Column(Modifier
-        .fillMaxSize()
-        .padding(6.dp), verticalArrangement = Arrangement.SpaceBetween) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(6.dp), verticalArrangement = Arrangement.SpaceBetween
+    ) {
 
-        Text(text = "Store", style = MaterialTheme.typography.titleLarge)
+        Text(
+            text = stringResource(R.string.store_screen_title),
+            style = MaterialTheme.typography.titleLarge
+        )
         Spacer(Modifier.height(5.dp))
 
         LazyColumn(modifier = Modifier.padding(10.dp)) {
@@ -50,7 +57,7 @@ fun ShopScreen() {
                 Row(modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)) {
                     Icon(Icons.Default.Stars, contentDescription = null)
                     Spacer(Modifier.width(4.dp))
-                    Text("Featured")
+                    Text(stringResource(R.string.category_featured))
                 }
                 LazyRow(
                     modifier = Modifier

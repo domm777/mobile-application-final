@@ -27,9 +27,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.mobile_application_final.R
 import com.example.mobile_application_final.data.models.Product
 
 @Composable
@@ -88,7 +90,7 @@ fun HProductCard(product: Product, addToCart: () -> Unit) {
                 }
                 Button(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = { addToCart() }) { Text("Add to Cart") }
+                    onClick = { addToCart() }) { Text(stringResource(R.string.add_to_cart)) }
             }
         }
     }

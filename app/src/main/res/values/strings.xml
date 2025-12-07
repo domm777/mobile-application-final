@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">mobile-application-final</string>
+    <string name="app_name">Stickora</string>
     <string name="userName">Username</string>
     <string name="userPassword">Password</string>
     <string name="userEmail">Email</string>
@@ -9,4 +9,18 @@
     <string name="bottom_nav_orders">Orders</string>
     <string name="bottom_nav_account">Account</string>
     <string name="create_account_prompt">Create Account</string>
+    <string name="order_card_status">Status: %1$s</string>
+    <string name="order_card_tracking_label">Tracking Number:</string>
+    <string name="order_card_date_placed_label">Date Placed:</string>
+    <string name="order_card_estimated_delivery_label">Estimated Delivery:</string>
+    <string name="order_card_details_btn">Order Details</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="cart_screen_title">Shopping Cart</string>
+    <string name="cart_summary">Subtotal: %1$s\nTax: %2$s\nTotal: %3$s</string>
+    <string name="empty_cart">Your cart is empty</string>
+    <string name="checkout_screen_btn">Proceed to Checkout</string>
+    <string name="order_screen_title">Orders</string>
+    <string name="store_screen_title">Store</string>
+    <string name="category_featured">Featured</string>
+    <string name="account_screen_title">Account</string>
 </resources>

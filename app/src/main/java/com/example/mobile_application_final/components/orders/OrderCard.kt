@@ -13,7 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.mobile_application_final.R
 import com.example.mobile_application_final.data.models.OrderItem
 
 @Composable
@@ -32,20 +34,38 @@ fun OrderCard(order: OrderItem) {
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.Start
         ) {
-            Text("Status: ${order.status}", style = MaterialTheme.typography.titleMedium)
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("Tacking Number:", style = MaterialTheme.typography.bodyMedium)
+            Text(
+                stringResource(R.string.order_card_status, order.status),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    stringResource(R.string.order_card_tracking_label),
+                    style = MaterialTheme.typography.bodyMedium
+                )
                 Text(order.tracking_number.toString(), style = MaterialTheme.typography.bodyMedium)
             }
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("Date Placed:", style = MaterialTheme.typography.bodyMedium)
+            Row(
+                modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    stringResource(R.string.order_card_date_placed_label),
+                    style = MaterialTheme.typography.bodyMedium
+                )
                 Text(order.date_placed, style = MaterialTheme.typography.bodyMedium)
             }
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("Estimated Delivery:", style = MaterialTheme.typography.bodyMedium)
+            Row(
+                modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    stringResource(R.string.order_card_estimated_delivery_label),
+                    style = MaterialTheme.typography.bodyMedium
+                )
                 Text(order.estimated_date, style = MaterialTheme.typography.bodyMedium)
             }
             Column {
@@ -53,9 +73,16 @@ fun OrderCard(order: OrderItem) {
                     OrderItemCard(item)
                 }
             }
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End){
-                Button(onClick = {}) {Text("Order Details", style = MaterialTheme.typography.titleMedium) }
+            Row(
+                modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
+            ) {
+                Button(onClick = {}) {
+                    Text(
+                        stringResource(R.string.order_card_details_btn),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
             }
         }
     }

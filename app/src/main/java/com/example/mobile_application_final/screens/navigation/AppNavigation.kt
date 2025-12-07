@@ -12,25 +12,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.mobile_application_final.R
 import com.example.mobile_application_final.screens.*
 
-sealed class Screen(val route: String, val title: String = "", val icon: ImageVector? = null) {
+sealed class Screen(
+    val route: String,
+    val titleResourceId: Int? = null,
+    val icon: ImageVector? = null,
+) {
     // Auth / System Screens (No Bottom Bar)
     object Splash : Screen("splash")
     object Login : Screen("login")
     //object Register : Screen("register")
 
     // Main Tabs (Have Bottom Bar)
-    object Shop : Screen("shop", "Shop", Icons.Default.ShoppingBasket)
-    object Cart : Screen("cart", "Cart", Icons.Default.AddShoppingCart)
-    object Orders : Screen("orders", "Orders", Icons.Default.AirportShuttle)
-    object Account : Screen("account", "Account", Icons.Default.AccountCircle)
+    object Shop : Screen("shop", R.string.store_screen_title, Icons.Default.ShoppingBasket)
+    object Cart : Screen("cart", R.string.cart_screen_title, Icons.Default.AddShoppingCart)
+    object Orders : Screen("orders", R.string.order_screen_title, Icons.Default.AirportShuttle)
+    object Account : Screen("account", R.string.account_screen_title, Icons.Default.AccountCircle)
 }
 
 @Composable
@@ -56,9 +62,12 @@ fun AppNavigation() {
             if (showBottomBar) {
                 NavigationBar {
                     bottomBarScreens.forEach { screen ->
+                        val title =
+                            if (screen.titleResourceId != null) stringResource(screen.titleResourceId) else ""
+
                         NavigationBarItem(
-                            label = { Text(screen.title) },
-                            icon = { Icon(screen.icon!!, contentDescription = screen.title) },
+                            label = { Text(title) },
+                            icon = { Icon(screen.icon!!, contentDescription = title) },
                             selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                             onClick = {
                                 navController.navigate(screen.route) {
@@ -102,7 +111,7 @@ fun AppNavigation() {
             }
 
             // --- MAIN TABS ---
-            composable(Screen.Shop.route) { ShopScreen()}
+            composable(Screen.Shop.route) { ShopScreen() }
             composable(Screen.Cart.route) { CartScreen() }
             composable(Screen.Orders.route) { OrderScreen(modifier = Modifier) }
             composable(Screen.Account.route) {

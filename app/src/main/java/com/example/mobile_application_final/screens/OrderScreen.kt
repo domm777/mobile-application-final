@@ -28,8 +28,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mobile_application_final.R
 import com.example.mobile_application_final.components.orders.OrderCard
 import com.example.mobile_application_final.components.products.HProductCard
 import com.example.mobile_application_final.components.products.VProductCard
@@ -44,10 +46,12 @@ fun OrderScreen(modifier: Modifier) {
         .fillMaxSize()
         .padding(6.dp), verticalArrangement = Arrangement.SpaceBetween) {
 
-        Text(text = "Orders", style = MaterialTheme.typography.titleLarge)
+        Text(text = stringResource(R.string.order_screen_title), style = MaterialTheme.typography.titleLarge)
         Spacer(Modifier.height(5.dp))
 
-        LazyColumn(modifier = Modifier.weight(1f).padding(10.dp)) {
+        LazyColumn(modifier = Modifier
+            .weight(1f)
+            .padding(10.dp)) {
             items(orders.size, key = { orders[it].id }) { index ->
                 val order = orders[index]
                 OrderCard(order)
