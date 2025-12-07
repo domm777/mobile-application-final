@@ -14,6 +14,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,7 +33,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun LoginScreen(onLoginSuccess: () -> Unit, onCreateAccountClicked: () -> Unit) {
     val loginModel: LoginViewModel = viewModel()
-    var errorMessage by mutableStateOf(null as String?)
+    var errorMessage by remember { mutableStateOf(null as String?) }
 
     Column(
         modifier = Modifier.fillMaxSize(),
