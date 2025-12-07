@@ -83,4 +83,9 @@ class CartDb(context: Context): SQLiteOpenHelper(context, "local.db", null, 2) {
         db.update("cart", values, "id = ?", arrayOf(id.toString()))
     }
 
+    fun clearCart(){
+        val db = writableDatabase
+        db.delete("cart", null, null)
+    }
+
 }

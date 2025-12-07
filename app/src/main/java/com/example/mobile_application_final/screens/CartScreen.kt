@@ -53,7 +53,7 @@ fun CartScreen() {
                     Text(modifier = Modifier.padding(4.dp), text = "Subtotal: ${currencyFormat.format(viewModel.subtotal)}\n" +
                             "Tax: ${currencyFormat.format(viewModel.tax)}\n" +
                             "Total: ${currencyFormat.format(viewModel.total)}")
-                    Button(onClick = {}) {
+                    Button(onClick = {viewModel.checkOut()}) {
                         Text("Proceed to Checkout")
                     }
                 }
