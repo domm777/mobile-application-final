@@ -7,8 +7,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import com.example.mobile_application_final.data.repositories.UserRepository
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 
 data class LoginValidationException(val msg: String) : IllegalStateException(msg)
 
@@ -35,7 +37,7 @@ class LoginViewModel(app: Application) : AndroidViewModel(app) {
                 return it
             }
 
-            throw LoginValidationException("Fome")
+            throw LoginValidationException("Login credentials are invalid or user doesn't exist.")
         } catch (e: FirebaseAuthInvalidCredentialsException) {
             val message = e.message
             throw LoginValidationException(message ?: "Invalid login credentials")

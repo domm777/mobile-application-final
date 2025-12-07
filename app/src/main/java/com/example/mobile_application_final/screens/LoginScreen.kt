@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -46,7 +47,12 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onCreateAccountClicked: () -> Unit) 
             modifier = Modifier.padding(bottom = 24.dp)
         )
         errorMessage?.let {
-            Text(it)
+            Text(
+                it,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(4.dp),
+                textAlign = TextAlign.Center
+            )
         }
         OutlinedTextField(
             value = loginModel.email,
