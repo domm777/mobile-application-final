@@ -33,11 +33,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.mobile_application_final.components.products.ProductPrice
+import com.example.mobile_application_final.components.products.ProductRating
 import com.example.mobile_application_final.data.models.CartItem
 import com.example.mobile_application_final.data.models.Product
 
 @Composable
-fun CartCard(cartItem: CartItem, product: Product, removeItem: () -> Unit, increase:()->Unit, decrease:()->Unit) {
+fun CartCard(
+    cartItem: CartItem,
+    product: Product,
+    removeItem: () -> Unit,
+    increase: () -> Unit,
+    decrease: () -> Unit,
+) {
     Card(
         modifier = Modifier
             .width(300.dp)
@@ -45,15 +53,19 @@ fun CartCard(cartItem: CartItem, product: Product, removeItem: () -> Unit, incre
             .padding(4.dp),
         elevation = CardDefaults.cardElevation(6.dp),
         shape = MaterialTheme.shapes.large
-    ){
+    ) {
         Row(
-            modifier = Modifier.fillMaxSize().padding(8.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Column(modifier = Modifier.padding(3.dp),
+            Column(
+                modifier = Modifier.padding(3.dp),
                 verticalArrangement = Arrangement.SpaceEvenly,
-                horizontalAlignment = Alignment.CenterHorizontally) {
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 AsyncImage(
                     model = product.image,
                     contentDescription = null,
@@ -62,56 +74,73 @@ fun CartCard(cartItem: CartItem, product: Product, removeItem: () -> Unit, incre
                         .clip(RoundedCornerShape(12.dp)),
                     contentScale = ContentScale.Crop
                 )
-                Row (verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center){
-                    val rating = product.rating
-                    for (i in 0 until 5) {
-                        val fullStar = i < rating.toInt()
-                        val halfStar = !fullStar && (rating - i) >= 0.5
 
-                        when {
-                            fullStar -> Icon(Icons.Filled.Star, contentDescription = null, Modifier.size(20.dp))
-                            halfStar -> Icon(Icons.AutoMirrored.Filled.StarHalf, contentDescription = null, Modifier.size(20.dp))
-                            else -> Icon(Icons.Filled.StarBorder, contentDescription = null, Modifier.size(20.dp))
-                        }
-                    }
-                }
-
+                ProductRating(product.rating)
             }
             Spacer(modifier = Modifier.width(8.dp))
             Column() {
-                Text(product.name, style = MaterialTheme.typography.titleMedium,
+                Text(
+                    product.name, style = MaterialTheme.typography.titleMedium,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis)
+                    overflow = TextOverflow.Ellipsis
+                )
                 Text(
                     product.description,
                     style = MaterialTheme.typography.bodySmall,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        "$${String.format("%.2f", product.price)}",
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                    if(product.featured)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    ProductPrice(product.price)
+                    if (product.featured)
                         Icon(Icons.Default.Stars, contentDescription = null, Modifier.size(20.dp))
                 }
-                Row (modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(shape = CircleShape)
-                    .background(MaterialTheme.colorScheme.primary)
-                    .padding(2.dp),
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(shape = CircleShape)
+                        .background(MaterialTheme.colorScheme.primary)
+                        .padding(2.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically){
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceAround, modifier = Modifier.padding(10.dp, 2.dp, 10.dp, 2.dp)){
-                        Text(modifier = Modifier.clickable(onClick = {decrease()}), text = "-", style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onPrimary)
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        modifier = Modifier.padding(10.dp, 2.dp, 10.dp, 2.dp)
+                    ) {
+                        Text(
+                            modifier = Modifier.clickable(onClick = { decrease() }),
+                            text = "-",
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
                         Spacer(modifier = Modifier.width(10.dp))
-                        Text(text = cartItem.quantity.toString(), style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onPrimary)
+                        Text(
+                            text = cartItem.quantity.toString(),
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
                         Spacer(modifier = Modifier.width(10.dp))
-                        Text(modifier = Modifier.clickable(onClick = {increase()}), text = "+", style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onPrimary)
+                        Text(
+                            modifier = Modifier.clickable(onClick = { increase() }),
+                            text = "+",
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
                     }
-                    Icon(modifier = Modifier.clickable(onClick = {removeItem()}).size(30.dp), imageVector = Icons.Outlined.Cancel, contentDescription = null, tint = MaterialTheme.colorScheme.onPrimary)
+                    Icon(
+                        modifier = Modifier
+                            .clickable(onClick = { removeItem() })
+                            .size(30.dp),
+                        imageVector = Icons.Outlined.Cancel,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimary
+                    )
                 }
             }
         }

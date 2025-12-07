@@ -17,7 +17,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.mobile_application_final.screens.*
 
-// 1. Define ALL your routes in one place
 sealed class Screen(val route: String, val title: String = "", val icon: ImageVector? = null) {
     // Auth / System Screens (No Bottom Bar)
     object Splash : Screen("splash")
@@ -35,7 +34,6 @@ sealed class Screen(val route: String, val title: String = "", val icon: ImageVe
 fun AppNavigation() {
     val navController = rememberNavController()
 
-    // 2. Identify which screens should have the Bottom Bar
     val bottomBarScreens = listOf(
         Screen.Shop,
         Screen.Cart,
@@ -43,14 +41,15 @@ fun AppNavigation() {
         Screen.Account
     )
 
-    // 3. Track the current screen to decide if we show the bar
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+
+    // we are only showing the bottom bar if the current route is one in our nav bar
+    // otherwise we're assuming it should be hidden
     val showBottomBar = bottomBarScreens.any { it.route == currentDestination?.route }
 
     Scaffold(
         bottomBar = {
-            // Only show the Bottom Navigation Bar if the current screen is in our list
             if (showBottomBar) {
                 NavigationBar {
                     bottomBarScreens.forEach { screen ->
@@ -74,7 +73,6 @@ fun AppNavigation() {
             }
         }
     ) { innerPadding ->
-        // 4. One Single NavHost for the whole app
         NavHost(
             navController = navController,
             startDestination = Screen.Splash.route,

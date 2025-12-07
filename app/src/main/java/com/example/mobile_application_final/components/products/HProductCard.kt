@@ -1,4 +1,4 @@
-package com.example.mobile_application_final.components
+package com.example.mobile_application_final.components.products
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,21 +35,25 @@ import com.example.mobile_application_final.data.models.Product
 @Composable
 fun HProductCard(product: Product, addToCart: () -> Unit) {
     Card(
-            modifier = Modifier
-                .width(300.dp)
-                .height(150.dp)
-                .padding(4.dp),
-            elevation = CardDefaults.cardElevation(6.dp),
-            shape = MaterialTheme.shapes.large
-        ){
+        modifier = Modifier
+            .width(300.dp)
+            .height(150.dp)
+            .padding(4.dp),
+        elevation = CardDefaults.cardElevation(6.dp),
+        shape = MaterialTheme.shapes.large
+    ) {
         Row(
-            modifier = Modifier.fillMaxSize().padding(8.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Column(modifier = Modifier.padding(3.dp),
+            Column(
+                modifier = Modifier.padding(3.dp),
                 verticalArrangement = Arrangement.SpaceEvenly,
-                horizontalAlignment = Alignment.CenterHorizontally) {
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 AsyncImage(
                     model = product.image,
                     contentDescription = null,
@@ -58,42 +62,33 @@ fun HProductCard(product: Product, addToCart: () -> Unit) {
                         .clip(RoundedCornerShape(12.dp)),
                     contentScale = ContentScale.Crop
                 )
-                    Row (verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center){
-                        val rating = product.rating
-                        for (i in 0 until 5) {
-                            val fullStar = i < rating.toInt()
-                            val halfStar = !fullStar && (rating - i) >= 0.5
-
-                            when {
-                                fullStar -> Icon(Icons.Filled.Star, contentDescription = null, Modifier.size(20.dp))
-                                halfStar -> Icon(Icons.AutoMirrored.Filled.StarHalf, contentDescription = null, Modifier.size(20.dp))
-                                else -> Icon(Icons.Filled.StarBorder, contentDescription = null, Modifier.size(20.dp))
-                            }
-                        }
-                    }
-
+                ProductRating(product.rating)
             }
             Spacer(modifier = Modifier.width(8.dp))
             Column() {
-                Text(product.name, style = MaterialTheme.typography.titleMedium,
+                Text(
+                    product.name, style = MaterialTheme.typography.titleMedium,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis)
+                    overflow = TextOverflow.Ellipsis
+                )
                 Text(
                     product.description,
                     style = MaterialTheme.typography.bodySmall,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        "$${String.format("%.2f", product.price)}",
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                    if(product.featured)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    ProductPrice(product.price)
+                    if (product.featured)
                         Icon(Icons.Default.Stars, contentDescription = null, Modifier.size(20.dp))
                 }
-                Button(modifier = Modifier.fillMaxWidth(), onClick = {addToCart()}) { Text("Add to Cart") }
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { addToCart() }) { Text("Add to Cart") }
             }
         }
     }
