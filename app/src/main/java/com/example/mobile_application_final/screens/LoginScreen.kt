@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mobile_application_final.R
+import com.example.mobile_application_final.components.ErrorBox
 import com.example.mobile_application_final.data.viewModels.LoginValidationException
 import com.example.mobile_application_final.data.viewModels.LoginViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -37,7 +38,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onCreateAccountClicked: () -> Unit) 
     var errorMessage by remember { mutableStateOf(null as String?) }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().padding(8.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -46,14 +47,9 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onCreateAccountClicked: () -> Unit) 
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 24.dp)
         )
-        errorMessage?.let {
-            Text(
-                it,
-                color = MaterialTheme.colorScheme.error,
-                modifier = Modifier.padding(4.dp),
-                textAlign = TextAlign.Center
-            )
-        }
+
+        ErrorBox(error = errorMessage)
+
         OutlinedTextField(
             value = loginModel.email,
             onValueChange = loginModel::onEmailChanged,

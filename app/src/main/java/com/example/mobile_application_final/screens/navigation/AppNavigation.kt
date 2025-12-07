@@ -30,7 +30,7 @@ sealed class Screen(
     // Auth / System Screens (No Bottom Bar)
     object Splash : Screen("splash")
     object Login : Screen("login")
-    //object Register : Screen("register")
+    object Register : Screen("register")
 
     // Main Tabs (Have Bottom Bar)
     object Shop : Screen("shop", R.string.store_screen_title, Icons.Default.ShoppingBasket)
@@ -106,8 +106,18 @@ fun AppNavigation() {
                             popUpTo(Screen.Login.route) { inclusive = true }
                         }
                     },
-                    onCreateAccountClicked = { /* Handle Create Account */ }
+                    onCreateAccountClicked = {
+                        navController.navigate(Screen.Register.route)
+                    }
                 )
+            }
+
+            composable(Screen.Register.route) {
+                CreateAccountScreen(onAccountCreated = {
+                    navController.navigate(Screen.Shop.route) {
+                        popUpTo(Screen.Register.route) { inclusive = true }
+                    }
+                })
             }
 
             // --- MAIN TABS ---
