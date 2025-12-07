@@ -3,6 +3,9 @@ package com.example.mobile_application_final.screens.navigation
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.AddShoppingCart
+import androidx.compose.material.icons.filled.AirportShuttle
+import androidx.compose.material.icons.filled.ShoppingBasket
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -24,9 +27,9 @@ sealed class Screen(val route: String, val title: String = "", val icon: ImageVe
     //object Register : Screen("register")
 
     // Main Tabs (Have Bottom Bar)
-    object Shop : Screen("shop", "Shop", Icons.Default.ShoppingCart)
-    object Cart : Screen("cart", "Cart", Icons.Default.ShoppingCart)
-    object Orders : Screen("orders", "Orders", Icons.Default.ShoppingCart)
+    object Shop : Screen("shop", "Shop", Icons.Default.ShoppingBasket)
+    object Cart : Screen("cart", "Cart", Icons.Default.AddShoppingCart)
+    object Orders : Screen("orders", "Orders", Icons.Default.AirportShuttle)
     object Account : Screen("account", "Account", Icons.Default.AccountCircle)
 }
 
