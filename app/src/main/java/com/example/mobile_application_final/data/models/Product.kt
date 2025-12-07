@@ -14,4 +14,6 @@ data class Product (
     val image: String = "",
     val stock: Long = 0,
     val featured: Boolean = false
-)
+) {
+    fun isInStock(): Boolean = stock > 0
+}

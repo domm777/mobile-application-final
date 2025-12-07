@@ -35,9 +35,6 @@ import java.text.NumberFormat
 
 @Composable
 fun VProductCard(product: Product, addToCart: () -> Unit) {
-    // make use of the local currency formatter
-    val currencyFormatter = NumberFormat.getCurrencyInstance()
-
     Card(
         modifier = Modifier
             .width(150.dp)
@@ -77,8 +74,7 @@ fun VProductCard(product: Product, addToCart: () -> Unit) {
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Column() {
-
+            Column {
                 Text(
                     product.description,
                     style = MaterialTheme.typography.bodySmall,
@@ -94,9 +90,8 @@ fun VProductCard(product: Product, addToCart: () -> Unit) {
                     if (product.featured)
                         Icon(Icons.Default.Stars, contentDescription = null, Modifier.size(20.dp))
                 }
-                Button(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = { addToCart() }) { Text(stringResource(R.string.add_to_cart)) }
+
+                AddToCartButton(product, addToCart)
             }
         }
     }

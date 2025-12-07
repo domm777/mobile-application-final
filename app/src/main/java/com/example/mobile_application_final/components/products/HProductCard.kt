@@ -88,9 +88,8 @@ fun HProductCard(product: Product, addToCart: () -> Unit) {
                     if (product.featured)
                         Icon(Icons.Default.Stars, contentDescription = null, Modifier.size(20.dp))
                 }
-                Button(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = { addToCart() }) { Text(stringResource(R.string.add_to_cart)) }
+
+                AddToCartButton(product, addToCart)
             }
         }
     }

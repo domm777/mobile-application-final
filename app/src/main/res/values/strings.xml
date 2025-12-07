@@ -23,4 +23,5 @@
     <string name="store_screen_title">Store</string>
     <string name="category_featured">Featured</string>
     <string name="account_screen_title">Account</string>
+    <string name="out_of_stock">Out of Stock</string>
 </resources>
