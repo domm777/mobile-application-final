@@ -54,7 +54,8 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onCreateAccountClicked: () -> Unit) 
         )
         Button(
             onClick = {
-                if (email == "user@gmail.com" && password == "pass123") onLoginSuccess()
+                //if (email == "user" && password == "pass")
+                    onLoginSuccess()
                 // Do nothing on failure, the user can try again.
                 // Calling LoginScreen() here is a bug.
             },

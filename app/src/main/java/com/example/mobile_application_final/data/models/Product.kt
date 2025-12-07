@@ -11,5 +11,6 @@ data class Product (
     val rating: Double = 0.0,
     val category: String = "",
     val image: String = "",
-    val stock: Int = 0
+    val stock: Long = 0,
+    val featured: Boolean = false
 )

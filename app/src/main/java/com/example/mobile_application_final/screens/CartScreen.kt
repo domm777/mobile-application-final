@@ -1,23 +1,68 @@
 package com.example.mobile_application_final.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.layout.LazyLayout
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mobile_application_final.components.CartCard
+import com.example.mobile_application_final.data.viewModels.CartScreenViewModel
+import com.example.mobile_application_final.data.viewModels.ShopScreenViewModel
 
 @Composable
 fun CartScreen(modifier: Modifier) {
-    Box(
-        modifier = modifier.fillMaxSize().testTag("cart_screen"),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "This is Cart Screen",
-            style = MaterialTheme.typography.headlineMedium
-        )
+    val viewModel: CartScreenViewModel = viewModel()
+    val products by viewModel.products.collectAsState()
+    Column(Modifier.fillMaxSize().padding(5.dp), verticalArrangement = Arrangement.SpaceBetween) {
+        Text(text = "Shopping Cart", style = MaterialTheme.typography.headlineMedium)
+        Spacer(Modifier.height(5.dp))
+        Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
+            if(viewModel.cartItems.size == 0){
+                Text(text = "Your cart is empty", style = MaterialTheme.typography.titleMedium)
+            }else{
+                LazyColumn( modifier = Modifier.fillMaxWidth().weight(1f)
+                    .padding(vertical = 5.dp),
+                    contentPadding = PaddingValues(horizontal = 5.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                    items(viewModel.cartItems.size, key = { viewModel.cartItems[it].id }){index ->
+                        val cartItem = viewModel.cartItems[index]
+                        val product = products.firstOrNull{it.id == cartItem.itemId}
+                        if(product != null){
+                            CartCard(Modifier, cartItem, product, {viewModel.removeItem(cartItem)}, {viewModel.updateItem(cartItem, product, 1)}, {viewModel.updateItem(cartItem, product, -1)})
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(5.dp))
+                Row(Modifier.fillMaxWidth().padding(4.dp), Arrangement.SpaceBetween, Alignment.CenterVertically) {
+                    Text(modifier = Modifier.padding(4.dp), text = "Subtotal: $${String.format("%.2f", viewModel.subtotal)}\n" +
+                            "Tax: $${String.format("%.2f", viewModel.tax)}\n" +
+                            "Total: $${String.format("%.2f", viewModel.total)}")
+                    Button(onClick = {}) {
+                        Text("Proceed to Checkout")
+                    }
+                }
+            }
+
+        }
+
     }
 }
