@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.mobile_application_final.data.models.CartItem
-import com.example.mobile_application_final.data.models.Product
 
 class CartDb(context: Context): SQLiteOpenHelper(context, "local.db", null, 2) {
     override fun onCreate(db: SQLiteDatabase?) {

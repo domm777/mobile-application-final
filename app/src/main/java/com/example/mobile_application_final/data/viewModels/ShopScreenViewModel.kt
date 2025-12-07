@@ -1,9 +1,7 @@
 package com.example.mobile_application_final.data.viewModels
 
 import android.app.Application
-import androidx.compose.ui.unit.fontscaling.MathUtils
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mobile_application_final.data.models.Category
 import com.example.mobile_application_final.data.models.Product

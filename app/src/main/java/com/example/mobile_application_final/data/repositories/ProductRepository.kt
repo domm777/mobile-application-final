@@ -1,6 +1,5 @@
 package com.example.mobile_application_final.data.repositories
 
-import com.example.mobile_application_final.R
 import com.example.mobile_application_final.data.models.Product
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await

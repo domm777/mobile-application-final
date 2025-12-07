@@ -1,7 +1,6 @@
 package com.example.mobile_application_final.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,9 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.StarHalf
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material.icons.filled.Stars
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -34,7 +31,7 @@ import coil.compose.AsyncImage
 import com.example.mobile_application_final.data.models.Product
 
 @Composable
-fun VProductCard (modifier: Modifier, product: Product, addToCart: () -> Unit) {
+fun VProductCard (product: Product, addToCart: () -> Unit) {
         Card(
             modifier = Modifier
                 .width(150.dp)
