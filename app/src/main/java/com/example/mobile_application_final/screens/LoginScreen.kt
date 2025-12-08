@@ -25,11 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mobile_application_final.R
 import com.example.mobile_application_final.components.ErrorBox
-import com.example.mobile_application_final.data.viewModels.LoginValidationException
 import com.example.mobile_application_final.data.viewModels.LoginViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(onLoginSuccess: () -> Unit, onCreateAccountClicked: () -> Unit) {
@@ -68,15 +64,17 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onCreateAccountClicked: () -> Unit) 
             onClick = {
                 errorMessage = null
 
+                onLoginSuccess()
+
                 // using coroutines so this doesn't block the rendering thread
-                CoroutineScope(Dispatchers.Main).launch {
-                    try {
-                        loginModel.onAttemptLogin()
-                        onLoginSuccess()
-                    } catch (e: LoginValidationException) {
-                        errorMessage = e.message
-                    }
-                }
+//                CoroutineScope(Dispatchers.Main).launch {
+//                    try {
+//                        loginModel.onAttemptLogin()
+//                        onLoginSuccess()
+//                    } catch (e: LoginValidationException) {
+//                        errorMessage = e.message
+//                    }
+//                }
             },
             modifier = Modifier.padding(top = 16.dp)
         ) {
