@@ -30,4 +30,9 @@
     <string name="light_theme">Light Mode</string>
     <string name="dark_theme">Dark Theme</string>
     <string name="display_name">Display Name</string>
+    <string name="login_invalid_email">Invalid email address</string>
+    <string name="login_invalid_password">Invalid password</string>
+    <string name="display_name_cannot_be_blank">Display name cannot be blank</string>
+    <string name="email_cannot_be_blank">Email cannot be blank</string>
+    <string name="password_min_len">Password must be at least 8 characters</string>
 </resources>

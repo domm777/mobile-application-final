@@ -12,10 +12,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -25,16 +21,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mobile_application_final.R
 import com.example.mobile_application_final.components.ErrorBox
-import com.example.mobile_application_final.data.viewModels.LoginValidationException
 import com.example.mobile_application_final.data.viewModels.LoginViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.google.firebase.auth.FirebaseUser
 
 @Composable
-fun LoginScreen(onLoginSuccess: () -> Unit, onCreateAccountClicked: () -> Unit) {
+fun LoginScreen(onLoginSuccess: (FirebaseUser) -> Unit, onCreateAccountClicked: () -> Unit) {
     val loginModel: LoginViewModel = viewModel()
-    var errorMessage by remember { mutableStateOf(null as String?) }
 
     Column(
         modifier = Modifier
@@ -48,8 +40,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onCreateAccountClicked: () -> Unit) 
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 24.dp)
         )
-
-        ErrorBox(error = errorMessage)
+        ErrorBox(error = loginModel.errorMessage)
 
         OutlinedTextField(
             value = loginModel.email,
@@ -68,17 +59,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onCreateAccountClicked: () -> Unit) 
             // disable the button when logging in is loading
             enabled = !loginModel.isLoading,
             onClick = {
-                errorMessage = null
-
-                // using coroutines so this doesn't block the rendering thread
-                CoroutineScope(Dispatchers.Main).launch {
-                    try {
-                        loginModel.onAttemptLogin()
-                        onLoginSuccess()
-                    } catch (e: LoginValidationException) {
-                        errorMessage = e.message
-                    }
-                }
+                loginModel.onAttemptLogin(onLoginSuccess)
             },
             modifier = Modifier.padding(top = 16.dp)
         ) {
