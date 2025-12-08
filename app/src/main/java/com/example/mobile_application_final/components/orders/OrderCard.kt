@@ -15,11 +15,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.mobile_application_final.R
 import com.example.mobile_application_final.data.models.OrderItem
+import com.example.mobile_application_final.data.viewModels.OrderScreenViewModel
 
 @Composable
-fun OrderCard(order: OrderItem) {
+fun OrderCard(order: OrderItem, orderScreenViewModel: OrderScreenViewModel, onDetailsClick: (OrderItem) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -77,7 +81,10 @@ fun OrderCard(order: OrderItem) {
                 modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
             ) {
-                Button(onClick = {}) {
+                Button(onClick = {
+                    orderScreenViewModel.selectOrder(order)
+                    onDetailsClick(order)
+                }) {
                     Text(
                         stringResource(R.string.order_card_details_btn),
                         style = MaterialTheme.typography.titleMedium

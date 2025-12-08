@@ -98,6 +98,11 @@ class CartScreenViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun checkOut() {
+        val sub = subtotal
+        val tx = tax
+        val tot = total
+
+
         // Early return for empty cart
         if (cartItems.size <= 0)
             return
@@ -134,9 +139,9 @@ class CartScreenViewModel(application: Application) : AndroidViewModel(applicati
                 date_placed = dateFormat.format(Date()),
                 estimated_date = dateFormat.format(calendar.time),
                 status = "Pending",
-                subtotal = subtotal,
-                tax = tax,
-                total = total,
+                subtotal = sub,
+                tax = tx,
+                total = tot,
                 tracking_number = Random.nextLong(100000000000L, 999999999999L),
                 //put firebase ID of user here
                 user_id = userId,

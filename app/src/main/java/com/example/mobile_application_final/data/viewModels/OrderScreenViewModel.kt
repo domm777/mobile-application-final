@@ -8,6 +8,7 @@ import com.example.mobile_application_final.data.repositories.OrdersRepository
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class OrderScreenViewModel (application: Application) : AndroidViewModel(application) {
@@ -15,6 +16,13 @@ class OrderScreenViewModel (application: Application) : AndroidViewModel(applica
     private val _orders = MutableStateFlow<List<OrderItem>>(emptyList())
     val orders: StateFlow<List<OrderItem>> = _orders
     private var ordersList: List<OrderItem> = emptyList()
+
+    private val _selectedOrder = MutableStateFlow<OrderItem?>(null)
+    val selectedOrder = _selectedOrder.asStateFlow()
+
+    fun selectOrder(order: OrderItem) {
+        _selectedOrder.value = order
+    }
 
     init{
         loadOrders()

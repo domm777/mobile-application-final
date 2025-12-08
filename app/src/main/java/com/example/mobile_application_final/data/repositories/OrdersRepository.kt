@@ -19,7 +19,7 @@ class OrdersRepository {
     }
 
     suspend fun addOrder(order: OrderItem){
-        db.collection("orders").add(order)
+        db.collection("orders").add(order).await()
     }
 
     suspend fun getOrderItemById(orderId: String): OrderItem {

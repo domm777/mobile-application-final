@@ -31,17 +31,21 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.mobile_application_final.R
 import com.example.mobile_application_final.components.orders.OrderCard
 import com.example.mobile_application_final.components.products.HProductCard
 import com.example.mobile_application_final.components.products.VProductCard
+import com.example.mobile_application_final.data.models.OrderItem
 import com.example.mobile_application_final.data.viewModels.OrderScreenViewModel
 import com.example.mobile_application_final.data.viewModels.ShopScreenViewModel
 
 @Composable
-fun OrderScreen(modifier: Modifier) {
-    val viewModel: OrderScreenViewModel = viewModel()
+fun OrderScreen(modifier: Modifier, viewModel: OrderScreenViewModel,onDetailsClick: (OrderItem) -> Unit ) {
     val orders by viewModel.orders.collectAsState()
+
     Column(Modifier
         .fillMaxSize()
         .padding(6.dp), verticalArrangement = Arrangement.SpaceBetween) {
@@ -54,7 +58,7 @@ fun OrderScreen(modifier: Modifier) {
             .padding(10.dp)) {
             items(orders.size, key = { orders[it].id }) { index ->
                 val order = orders[index]
-                OrderCard(order)
+                OrderCard(order, viewModel, onDetailsClick)
                 if (index != orders.size - 1) {
                     HorizontalDivider(
                         modifier = Modifier

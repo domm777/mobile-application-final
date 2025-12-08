@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -25,10 +26,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.mobile_application_final.R
+import com.example.mobile_application_final.data.viewModels.OrderScreenViewModel
 import com.example.mobile_application_final.data.viewModels.ThemeViewModel
 import com.example.mobile_application_final.screens.CartScreen
 import com.example.mobile_application_final.screens.CreateAccountScreen
 import com.example.mobile_application_final.screens.LoginScreen
+import com.example.mobile_application_final.screens.OrderDetailsScreen
 import com.example.mobile_application_final.screens.OrderScreen
 import com.example.mobile_application_final.screens.ShopScreen
 import com.example.mobile_application_final.screens.SplashScreen
@@ -50,6 +53,8 @@ sealed class Screen(
     object Cart : Screen("cart", R.string.cart_screen_title, Icons.Default.AddShoppingCart)
     object Orders : Screen("orders", R.string.order_screen_title, Icons.Default.AirportShuttle)
     object Account : Screen("account", R.string.account_screen_title, Icons.Default.AccountCircle)
+
+    object OrderDetails: Screen("order_details",R.string.order_screen_title, Icons.Default.AirportShuttle)
 }
 
 @Composable
@@ -69,6 +74,8 @@ fun AppNavigation(themeModel: ThemeViewModel? = null) {
     // we are only showing the bottom bar if the current route is one in our nav bar
     // otherwise we're assuming it should be hidden
     val showBottomBar = bottomBarScreens.any { it.route == currentDestination?.route }
+
+    val sharedOrder: OrderScreenViewModel = viewModel()
 
     Scaffold(
         bottomBar = {
@@ -115,7 +122,10 @@ fun AppNavigation(themeModel: ThemeViewModel? = null) {
             // --- MAIN TABS ---
             composable(Screen.Shop.route) { ShopScreen() }
             composable(Screen.Cart.route) { CartScreen() }
-            composable(Screen.Orders.route) { OrderScreen(modifier = Modifier) }
+            composable(Screen.Orders.route) { OrderScreen(modifier = Modifier, sharedOrder, {
+                navController.navigate(Screen.OrderDetails.route) {
+            }}) }
+            composable(Screen.OrderDetails.route) { OrderDetailsScreen(modifier = Modifier, sharedOrder) }
             composable(Screen.Account.route) {
                 AccountScreen(modifier = Modifier, themeModel, onLogOut = {
                     // Log out logic: Go back to Login, clear everything

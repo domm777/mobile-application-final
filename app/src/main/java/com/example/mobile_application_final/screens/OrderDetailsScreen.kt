@@ -31,11 +31,14 @@ import com.example.mobile_application_final.R
 import com.example.mobile_application_final.components.orders.OrderItemCard
 import com.example.mobile_application_final.components.products.HProductCard
 import com.example.mobile_application_final.data.viewModels.OrderDetailsScreenViewModel
+import com.example.mobile_application_final.data.viewModels.OrderScreenViewModel
+import java.text.NumberFormat
 
 @Composable
-fun OrderDetailsScreen(modifier: Modifier) {
-    val viewModel: OrderDetailsScreenViewModel = viewModel()
-    val order by viewModel.order.collectAsState()
+fun OrderDetailsScreen(modifier: Modifier, viewModel: OrderScreenViewModel) {
+    val order by viewModel.selectedOrder.collectAsState()
+
+    val currencyFormatter = NumberFormat.getCurrencyInstance()
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -49,7 +52,7 @@ fun OrderDetailsScreen(modifier: Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(R.string.status, order.status),
+                text = stringResource(R.string.status, order?.status ?: ""),
                 style = MaterialTheme.typography.headlineMedium
             )
 
@@ -74,17 +77,17 @@ fun OrderDetailsScreen(modifier: Modifier) {
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(stringResource(R.string.tracking_number))
-                Text(order.tracking_number.toString())
+                Text(order?.tracking_number.toString())
             }
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(stringResource(R.string.date_ordered))
-                Text(order.date_placed.toString())
+                Text(order?.date_placed.toString())
             }
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(stringResource(R.string.estimated_delivery))
-                Text(order.estimated_date.toString())
+                Text(order?.estimated_date.toString())
             }
             Spacer(Modifier.height(24.dp))
 
@@ -96,9 +99,9 @@ fun OrderDetailsScreen(modifier: Modifier) {
             LazyColumn(
                 modifier = Modifier
                     .padding(8.dp)
-                    .fillMaxHeight()
+                    .fillMaxWidth().weight(1f)
             ) {
-                items(order.items) { product ->
+                items(order?.items ?: emptyList()) { product ->
                     OrderItemCard(product)
                 }
             }
@@ -111,7 +114,7 @@ fun OrderDetailsScreen(modifier: Modifier) {
                     stringResource(R.string.subtotal),
                     style = MaterialTheme.typography.titleLarge,
                 )
-                Text(order.subtotal.toString(),
+                Text(currencyFormatter.format(order?.subtotal),
                     style = MaterialTheme.typography.titleLarge,)
             }
             Row(modifier = Modifier.fillMaxWidth(),
@@ -120,7 +123,7 @@ fun OrderDetailsScreen(modifier: Modifier) {
                     stringResource(R.string.taxes),
                     style = MaterialTheme.typography.titleLarge,
                 )
-                Text(order.tax.toString(),
+                Text(currencyFormatter.format(order?.tax),
                     style = MaterialTheme.typography.titleLarge,)
             }
             Row(modifier = Modifier.fillMaxWidth(),
@@ -129,7 +132,7 @@ fun OrderDetailsScreen(modifier: Modifier) {
                     stringResource(R.string.total),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold)
-                Text(order.total.toString(),
+                Text(currencyFormatter.format(order?.total),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold)
             }
@@ -142,8 +145,8 @@ fun OrderDetailsScreen(modifier: Modifier) {
             Column(Modifier
                 .padding(4.dp)
                 .fillMaxWidth(), horizontalAlignment = Alignment.Start) {
-                Text(order.user_id)
-                Text(order.address)
+                Text(order?.user_id.toString())
+                Text(order?.address.toString())
             }
         }
     }
