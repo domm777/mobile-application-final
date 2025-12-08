@@ -21,4 +21,14 @@ class OrdersRepository {
     suspend fun addOrder(order: OrderItem){
         db.collection("orders").add(order)
     }
+
+    suspend fun getOrderItemById(orderId: String): OrderItem {
+        var order = ordersRef
+            .whereEqualTo("id", orderId)
+            .get()
+            .await()
+            .documents
+            .mapNotNull { it.toObject(OrderItem::class.java) }
+        return order[0]
+    }
 }

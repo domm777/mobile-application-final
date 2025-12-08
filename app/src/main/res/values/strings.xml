@@ -30,4 +30,14 @@
     <string name="light_theme">Light Mode</string>
     <string name="dark_theme">Dark Theme</string>
     <string name="display_name">Display Name</string>
+    <string name="order_recieved">"   Order \nRecieved"</string>
+    <string name="status">Status: %1$s</string>
+    <string name="tracking_number">Tracking Number:</string>
+    <string name="date_ordered">Date Ordered:</string>
+    <string name="estimated_delivery">Estimated Delivery:</string>
+    <string name="order_items">Order Items:</string>
+    <string name="subtotal">Subtotal:</string>
+    <string name="total">Total:</string>
+    <string name="taxes">Taxes:</string>
+    <string name="delivery_address">Delivery Address:</string>
 </resources>
