@@ -15,9 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.mobile_application_final.R
 import com.example.mobile_application_final.data.models.OrderItem
 import com.example.mobile_application_final.data.viewModels.OrderScreenViewModel
