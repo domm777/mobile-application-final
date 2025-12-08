@@ -5,39 +5,39 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mobile_application_final.R
 import com.example.mobile_application_final.components.ErrorBox
 import com.example.mobile_application_final.data.viewModels.RegisterViewModel
-import com.example.mobile_application_final.data.viewModels.RegistrationException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.google.firebase.auth.FirebaseUser
 
 @Composable
-fun CreateAccountScreen(onAccountCreated: () -> Unit) {
+fun CreateAccountScreen(onAccountCreated: (user: FirebaseUser) -> Unit) {
     val registerViewModel: RegisterViewModel = viewModel()
-    var errorMessage: String? by remember { mutableStateOf(null) }
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(8.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ErrorBox(error = errorMessage)
+        Text(
+            text = stringResource(R.string.register),
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
+
+        ErrorBox(error = registerViewModel.errorMessage)
 
         OutlinedTextField(
             value = registerViewModel.displayName,
@@ -61,16 +61,7 @@ fun CreateAccountScreen(onAccountCreated: () -> Unit) {
         Button(
             enabled = !registerViewModel.isLoading,
             onClick = {
-                errorMessage = null
-
-                CoroutineScope(Dispatchers.Main).launch {
-                    try {
-                        registerViewModel.onRegister()
-                        onAccountCreated()
-                    } catch (e: RegistrationException) {
-                        errorMessage = e.msg
-                    }
-                }
+                registerViewModel.onRegister(onAccountCreated)
             },
             modifier = Modifier.padding(8.dp)
         ) {

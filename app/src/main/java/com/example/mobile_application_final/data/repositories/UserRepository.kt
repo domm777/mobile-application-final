@@ -8,23 +8,22 @@ import kotlinx.coroutines.tasks.await
 class UserRepository {
     private val db = FirebaseAuth.getInstance()
 
-    suspend fun register(displayName: String, email: String, password: String): FirebaseUser? {
+    suspend fun register(displayName: String, email: String, password: String): FirebaseUser {
         val result = db.createUserWithEmailAndPassword(email, password).await()
 
-        return if (result.user != null) {
-            // if we get a user back, we will set their display name to the provided value
-            result.user!!.updateProfile(
-                UserProfileChangeRequest.Builder().setDisplayName(displayName).build()
-            )
+        // we can always expect a user to be returned here
+        val user = result.user!!
 
-            return result.user
-        } else {
-            null
-        }
+        // if we get a user back, we will set their display name to the provided value
+        user.updateProfile(
+            UserProfileChangeRequest.Builder().setDisplayName(displayName).build()
+        )
+
+        return user
     }
 
-    suspend fun login(email: String, password: String): FirebaseUser? {
+    suspend fun login(email: String, password: String): FirebaseUser {
         val result = db.signInWithEmailAndPassword(email, password).await()
-        return result.user
+        return result.user!!
     }
 }
