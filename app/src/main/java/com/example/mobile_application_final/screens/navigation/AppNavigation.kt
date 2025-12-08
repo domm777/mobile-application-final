@@ -13,8 +13,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -22,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mobile_application_final.R
 import com.example.mobile_application_final.data.viewModels.ThemeViewModel
 import com.example.mobile_application_final.screens.*
+import com.google.firebase.auth.FirebaseAuth
 
 sealed class Screen(
     val route: String,
@@ -61,28 +64,7 @@ fun AppNavigation(themeModel: ThemeViewModel? = null) {
     Scaffold(
         bottomBar = {
             if (showBottomBar) {
-                NavigationBar {
-                    bottomBarScreens.forEach { screen ->
-                        val title =
-                            if (screen.titleResourceId != null) stringResource(screen.titleResourceId) else ""
-
-                        NavigationBarItem(
-                            label = { Text(title) },
-                            icon = { Icon(screen.icon!!, contentDescription = title) },
-                            selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                            onClick = {
-                                navController.navigate(screen.route) {
-                                    // Standard Bottom Navigation Logic
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
-                                    }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            }
-                        )
-                    }
-                }
+                BottomNav(bottomBarScreens, currentDestination, navController)
             }
         }
     ) { innerPadding ->
@@ -133,6 +115,36 @@ fun AppNavigation(themeModel: ThemeViewModel? = null) {
                     }
                 })
             }
+        }
+    }
+}
+
+@Composable
+fun BottomNav(
+    bottomBarScreens: List<Screen>,
+    currentDestination: NavDestination?,
+    navController: NavHostController,
+) {
+    NavigationBar {
+        bottomBarScreens.forEach { screen ->
+            val title =
+                if (screen.titleResourceId != null) stringResource(screen.titleResourceId) else ""
+
+            NavigationBarItem(
+                label = { Text(title) },
+                icon = { Icon(screen.icon!!, contentDescription = title) },
+                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                onClick = {
+                    navController.navigate(screen.route) {
+                        // Standard Bottom Navigation Logic
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            )
         }
     }
 }
