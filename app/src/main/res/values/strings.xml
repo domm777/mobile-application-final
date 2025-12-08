@@ -25,4 +25,6 @@
     <string name="account_screen_title">Account</string>
     <string name="out_of_stock">Out of Stock</string>
     <string name="register">Create Account</string>
+    <string name="light_theme">Light Mode</string>
+    <string name="dark_theme">Dark Theme</string>
 </resources>

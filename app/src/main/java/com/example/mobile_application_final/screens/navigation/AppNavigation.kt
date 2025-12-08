@@ -20,6 +20,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.mobile_application_final.R
+import com.example.mobile_application_final.data.viewModels.ThemeViewModel
 import com.example.mobile_application_final.screens.*
 
 sealed class Screen(
@@ -40,7 +41,7 @@ sealed class Screen(
 }
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(themeModel: ThemeViewModel? = null) {
     val navController = rememberNavController()
 
     val bottomBarScreens = listOf(
@@ -125,7 +126,7 @@ fun AppNavigation() {
             composable(Screen.Cart.route) { CartScreen() }
             composable(Screen.Orders.route) { OrderScreen(modifier = Modifier) }
             composable(Screen.Account.route) {
-                AccountScreen(modifier = Modifier, onLogOut = {
+                AccountScreen(modifier = Modifier, themeModel, onLogOut = {
                     // Log out logic: Go back to Login, clear everything
                     navController.navigate(Screen.Login.route) {
                         popUpTo(0) { inclusive = true } // Clears entire stack
